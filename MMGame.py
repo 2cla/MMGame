@@ -1,6 +1,15 @@
 import numpy as np
 
 class MMGame:
+    """
+        Initializes the game based on the number of M&Ms each player has and their respective coin weights (i.e., probability it comes up heads and M&M is consumed).
+        The game ends when at most one player has a nonzero number of M&Ms.
+
+        Arguments:
+
+        - player_mms: List of integers respresenting the number of M&Ms each player has
+        - coin_weights: List of floats representing the probability each player's coin turns up heads
+    """
     def __init__(self, player_mms, coin_weights):
         assert len(player_mms) == len(coin_weights)
         assert len(player_mms) > 1
@@ -18,6 +27,9 @@ class MMGame:
         self.player_mms = player_mms
         self.coin_weights = coin_weights
 
+    """
+        Runs one instance of the game according to the set parameters.
+    """
     def run_game(self):
         player_mms = self.player_mms.copy()
         coin_weights = self.coin_weights.copy()
@@ -37,9 +49,25 @@ class MMGame:
 
         return winner, game_turns
 
+    """
+        Runs a set number of trials of the game.
+
+        Arguments:
+
+        - trial_count: Integer representing number of trials to run
+
+        Returns:
+
+        - player_win_probabilities: List of floats containing the simulated probabilities of winning for each player
+        - tie_probability: Float representing the simulated probability of a tie
+        - turn_counts: List of integers containing the number of turns that took place during each trial
+    """
     def run_trials(self, trial_count):
+        assert type(trial_count) == int
+        assert trial_count
+
         player_win_count = [0]*self.player_mms.shape[0]
-        total_turns = 0
+        turn_counts = []
         tie_count = 0
 
         for _ in range(trial_count):
@@ -48,10 +76,9 @@ class MMGame:
             if winner == -1: tie_count += 1
             else: player_win_count[winner] += 1
 
-            total_turns += game_turns
+            turn_counts.append(game_turns)
 
         player_win_probabilities = [player_wins / trial_count for player_wins in player_win_count]
         tie_probability = tie_count / trial_count
-        expected_turns = total_turns / trial_count
 
-        return player_win_probabilities, tie_probability, expected_turns
+        return player_win_probabilities, tie_probability, turn_counts
