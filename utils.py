@@ -23,3 +23,12 @@ def plot_turn_count_distribution(num_trials, turn_counts):
 
     plt.show()  
     return
+
+def plot_game_history(datapoints):
+    _, ax = plt.plot(range(1, datapoints+1), datapoints)
+
+    ax.set_xlabel('Number of turns')
+    ax.set_ylabel('Number of M&Ms')
+    ax.set_title('History of M&Ms by turn')
+    plt.show()
+    return

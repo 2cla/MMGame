@@ -18,6 +18,8 @@ class MMGame:
         for player_mm in player_mms: datatype_check &= type(player_mm) == int
         for coin_weight in coin_weights: datatype_check &= type(coin_weight) == float
 
+        assert datatype_check
+
         player_mms = np.array(player_mms)
         coin_weights = np.array(coin_weights)
 
@@ -32,7 +34,7 @@ class MMGame:
     """
     def run_game(self):
         player_mms = self.player_mms.copy()
-        coin_weights = self.coin_weights.copy()
+        coin_weights = self.coin_weights
 
         game_turns = 0
 
